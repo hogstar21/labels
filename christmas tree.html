@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printable Christmas Trees</title>
+    <style>
+        /* Reset margins and padding for print */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Container for all trees */
+        .tree-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75in; /* Reduced to 0.75 inch spacing to fit more trees */
+            padding: 0.5in;
+        }
+        
+        /* Tree style */
+        .tree {
+            width: 1.6in; /* Reduced width while maintaining aspect ratio */
+            height: 2.5in; /* 2.5 inches tall as requested */
+        }
+        
+        /* Print-specific rules */
+        @media print {
+            @page {
+                size: letter;
+                margin: 0.5in;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+        
+        /* Button styling */
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .print-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">Print Trees</button>
+    
+    <div class="tree-container" id="treeContainer"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('treeContainer');
+            
+            // Simple Christmas tree SVG template
+            const treeSVG = `
+                <svg class="tree" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Tree trunk -->
+                    <rect x="42" y="120" width="16" height="20" fill="none" stroke="black" stroke-width="1.5"/>
+                    
+                    <!-- Tree body -->
+                    <polygon points="50,10 20,50 35,50 15,80 35,80 10,110 90,110 65,80 85,80 65,50 80,50" fill="none" stroke="black" stroke-width="1.5"/>
+                    
+                    <!-- Optional decorations - as outlines -->
+                    <circle cx="50" cy="30" r="3" fill="none" stroke="black" stroke-width="1"/>
+                    <circle cx="40" cy="60" r="3" fill="none" stroke="black" stroke-width="1"/>
+                    <circle cx="60" cy="70" r="3" fill="none" stroke="black" stroke-width="1"/>
+                    <circle cx="35" cy="90" r="3" fill="none" stroke="black" stroke-width="1"/>
+                    <circle cx="65" cy="95" r="3" fill="none" stroke="black" stroke-width="1"/>
+                    
+                    <!-- Star at top -->
+                    <polygon points="50,5 53,12 60,12 55,17 57,24 50,20 43,24 45,17 40,12 47,12" fill="none" stroke="black" stroke-width="1"/>
+                </svg>
+            `;
+            
+            // Calculate how many trees can fit on a page
+            // For a standard US Letter page (8.5" x 11") with 0.5" margins and 1" spacing:
+            const pageWidthInches = 8.5 - (2 * 0.5); // 7.5" of usable width
+            const pageHeightInches = 11 - (2 * 0.5); // 10" of usable height
+            
+            const treeWidthWithSpacing = 1.6 + 1; // 1.6" tree width + 1" spacing
+            const treeHeightWithSpacing = 2.5 + 0.75; // 2.5" tree height + 0.75" spacing (slightly reduced vertical spacing)
+            
+            const treesPerRow = Math.floor(pageWidthInches / treeWidthWithSpacing);
+            const rowsPerPage = Math.floor(pageHeightInches / treeHeightWithSpacing);
+            
+            // Calculate total trees that would normally fit
+            const totalTrees = treesPerRow * rowsPerPage;
+            
+            // Add an extra row of 3 trees as requested
+            const actualTotalTrees = totalTrees + 3;
+            
+            // Create trees
+            for (let i = 0; i < actualTotalTrees; i++) {
+                container.innerHTML += treeSVG;
+            }
+        });
+    </script>
+</body>
+</html>
