@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printable Four Horizontal Sections with Text Alignment</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .controls {
+            max-width: 8.5in;
+            margin: 20px auto 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .control-group label {
+            margin-right: 10px;
+            font-weight: bold;
+            min-width: 100px;
+        }
+        
+        .control-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        
+        select, input {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        .paper {
+            width: 8.5in;
+            height: 11in;
+            margin: 0 auto 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        /* Horizontal dotted lines */
+        .line-1 {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 2px dotted #000;
+            top: 25%;
+            z-index: 10;
+        }
+        
+        .line-2 {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 2px dotted #000;
+            top: 50%;
+            z-index: 10;
+        }
+        
+        .line-3 {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-top: 2px dotted #000;
+            top: 75%;
+            z-index: 10;
+        }
+        
+        /* Section styling */
+        .section {
+            position: absolute;
+            width: 100%;
+            height: 25%;
+            box-sizing: border-box;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .section-1 {
+            top: 0;
+        }
+        
+        .section-2 {
+            top: 25%;
+        }
+        
+        .section-3 {
+            top: 50%;
+        }
+        
+        .section-4 {
+            top: 75%;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 90%;
+            box-sizing: border-box;
+            border: none;
+            resize: none;
+            line-height: 1.5;
+            padding: 10px;
+            background-color: transparent;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            text-align: left;
+        }
+        
+        @media print {
+            .controls {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .paper {
+                box-shadow: none;
+                margin: 0;
+            }
+            
+            textarea {
+                border: none;
+                outline: none;
+                appearance: none;
+            }
+        }
+    </style>
+    <script>
+        function updateTextAreas() {
+            const fontFamily = document.getElementById('fontFamily').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const horizontalAlign = document.getElementById('horizontalAlign').value;
+            const verticalAlign = document.getElementById('verticalAlign').value;
+            const textAreas = document.querySelectorAll('textarea');
+            const sections = document.querySelectorAll('.section');
+            
+            textAreas.forEach(textArea => {
+                textArea.style.fontFamily = fontFamily;
+                textArea.style.fontSize = fontSize + 'px';
+                textArea.style.textAlign = horizontalAlign;
+            });
+            
+            sections.forEach(section => {
+                switch(verticalAlign) {
+                    case 'top':
+                        section.style.alignItems = 'flex-start';
+                        break;
+                    case 'middle':
+                        section.style.alignItems = 'center';
+                        break;
+                    case 'bottom':
+                        section.style.alignItems = 'flex-end';
+                        break;
+                }
+            });
+        }
+        
+        window.onload = function() {
+            // Initialize with default values
+            updateTextAreas();
+            
+            // Add event listeners
+            document.getElementById('fontFamily').addEventListener('change', updateTextAreas);
+            document.getElementById('fontSize').addEventListener('change', updateTextAreas);
+            document.getElementById('horizontalAlign').addEventListener('change', updateTextAreas);
+            document.getElementById('verticalAlign').addEventListener('change', updateTextAreas);
+        };
+    </script>
+</head>
+<body>
+    <div class="controls">
+        <div class="control-group">
+            <div class="control-item">
+                <label for="fontFamily">Font Style:</label>
+                <select id="fontFamily">
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="Verdana, sans-serif">Verdana</option>
+                    <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                    <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                    <option value="Impact, sans-serif">Impact</option>
+                    <option value="'Lucida Console', monospace">Lucida Console</option>
+                </select>
+            </div>
+            <div class="control-item">
+                <label for="fontSize">Font Size:</label>
+                <input type="number" id="fontSize" min="8" max="36" value="14" step="1"> px
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-item">
+                <label for="horizontalAlign">Horizontal Alignment:</label>
+                <select id="horizontalAlign">
+                    <option value="left">Left</option>
+                    <option value="center">Center</option>
+                    <option value="right">Right</option>
+                </select>
+            </div>
+            <div class="control-item">
+                <label for="verticalAlign">Vertical Alignment:</label>
+                <select id="verticalAlign">
+                    <option value="top">Top</option>
+                    <option value="middle">Middle</option>
+                    <option value="bottom">Bottom</option>
+                </select>
+            </div>
+        </div>
+        <p><strong>Note:</strong> These controls will not appear when printed. All text alignment and font settings will be preserved in the printed document.</p>
+    </div>
+    
+    <div class="paper">
+        <!-- Dotted lines -->
+        <div class="line-1"></div>
+        <div class="line-2"></div>
+        <div class="line-3"></div>
+        
+        <!-- Four sections with text areas -->
+        <div class="section section-1">
+            <textarea placeholder="Write your text for section 1 here..."></textarea>
+        </div>
+        <div class="section section-2">
+            <textarea placeholder="Write your text for section 2 here..."></textarea>
+        </div>
+        <div class="section section-3">
+            <textarea placeholder="Write your text for section 3 here..."></textarea>
+        </div>
+        <div class="section section-4">
+            <textarea placeholder="Write your text for section 4 here..."></textarea>
+        </div>
+    </div>
+</body>
+</html>
